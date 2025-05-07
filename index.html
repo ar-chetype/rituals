@@ -1009,6 +1009,52 @@ resultText.innerHTML = photoHtml + `<div style='margin-top:18px;white-space:pre-
     max-width: 300px !important;
   }
 }
+@media (max-width: 600px) {
+  #mobile-blocker-special {
+    display: none !important;
+  }
+  body > :not(#mobile-blocker-special) {
+    display: block !important;
+  }
+  #photo-upload {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+    padding: 20px !important;
+  }
+  .upload-zone {
+    width: 100% !important;
+    max-width: 300px !important;
+    height: 200px !important;
+    margin: 20px auto !important;
+  }
+  #image-preview, #image-preview-1, #image-preview-2 {
+    width: 100% !important;
+    max-width: 300px !important;
+    height: 300px !important;
+    margin: 20px auto !important;
+  }
+  #perform-ritual-btn {
+    margin-top: 30px !important;
+    width: 100% !important;
+    max-width: 300px !important;
+  }
+  .upload-content {
+    padding: 20px !important;
+  }
+  .upload-text {
+    font-size: 1.2rem !important;
+  }
+  .upload-hint {
+    font-size: 0.9rem !important;
+  }
+  #photo-upload-hint {
+    font-size: 1.1rem !important;
+    margin-bottom: 30px !important;
+  }
+}
 </style>
 <!-- SVG фильтр для ряби -->
 <svg width="0" height="0" style="position:absolute">
