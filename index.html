@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>🔮 Архив Ритуалов 🔮</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    background: #000;
+    color: #fff;
+    font-family: sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    text-align: center;
+    transition: background 1s;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    filter: url(#water-distort);
+    transition: filter 0.3s;
+}
+#emoji-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+.emoji {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.2;
+    animation: float 20s infinite linear;
+    will-change: transform;
+}
+@keyframes float {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(50px, 50px); }
+    100% { transform: translate(0, 0); }
+}
+.header-container {
+    position: relative;
+    margin: 0;
+    animation: float-title 15s infinite ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+@keyframes float-title {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 3.2rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px #fff, 0 0 16px #fff;
+    margin: 0 0 8px 0;
+    z-index: 2;
+    position: relative;
+    color: #fff;
+    filter: url(#water-distort-title);
+    transition: filter 0.3s, opacity 0.3s;
+}
+.header-container h1.water-blur {
+    filter: url(#water-distort-title) blur(3.5px) opacity(0.7);
+}
+@keyframes shimmer {
+    from { opacity: 0.7; text-shadow: 0 0 5px #fff; }
+    to { opacity: 1; text-shadow: 0 0 20px #fff, 0 0 30px #8a2be2; }
+}
+.button {
+    background: #000;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 14px 32px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin: 10px auto;
+    transition: all 0.3s ease;
+    width: 280px;
+    z-index: 2;
+    position: relative;
+    border-radius: 32px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+.button:hover {
+    background: #fff;
+    color: #000;
+}
+.small-button {
+    width: 200px;
+    font-size: 1rem;
+    padding: 8px 15px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    border: 1px solid #8a2be2;
+}
+.hidden {
+    display: none !important;
+}
+#result-text {
+    font-size: 2.7rem;
+    animation: result-flicker 1.2s infinite alternate;
+    margin: 30px 0 0 0;
+    padding: 0 20px;
+    line-height: 1.5;
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 24px #fff, 0 0 48px #fff, 0 0 32px #8a2be2, 0 0 64px #fff;
+}
+@keyframes result-flicker {
+    0% { opacity: 0.7; text-shadow: 0 0 12px #fff, 0 0 24px #fff, 0 0 16px #8a2be2; }
+    50% { opacity: 1; text-shadow: 0 0 48px #fff, 0 0 96px #fff, 0 0 64px #8a2be2, 0 0 128px #fff; }
+    100% { opacity: 0.7; text-shadow: 0 0 12px #fff, 0 0 24px #fff, 0 0 16px #8a2be2; }
+}
+
+/* Мистическая загрузка фото */
+.upload-container {
+    position: relative;
+    margin: 0 auto;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.upload-zone {
+    margin-top: 64px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    width: 250px;
+    height: 160px;
+    border: 2px dashed #888;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px #fff;
+}
+.upload-zone:hover, .upload-zone.dragover {
+    background: rgba(255,255,255,0.45);
+    border-color: #fff;
+    box-shadow: 0 0 40px #fff;
+}
+.upload-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+}
+.upload-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 15px;
+    animation: pulse-icon 2s infinite alternate;
+}
+@keyframes pulse-icon {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(1.1); opacity: 1; }
+}
+.upload-text {
+    font-size: 1.3rem;
+    display: block;
+    margin-bottom: 5px;
+    text-shadow: 0 0 5px #8a2be2;
+}
+.upload-hint {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+#image-preview,
+#image-preview-1,
+#image-preview-2 {
+    margin-top: 48px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    width: 250px;
+    height: 250px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 20px #fffcc;
+    filter: none !important;
+}
+#image-preview img, #image-preview-1 img, #image-preview-2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#image-preview-1::after, #image-preview-2::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+/* Печать заклинания */
+#seal-ritual {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#seal-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin-bottom: 30px;
+}
+#seal-visuals {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+#seal-3d {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+#atom-core {
+    filter: drop-shadow(0 0 32px #fff) drop-shadow(0 0 64px #fff);
+    animation: atom-core-shake 0.4s linear infinite, atom-core-color 2.5s linear infinite;
+}
+@keyframes atom-core-shake {
+    0% { transform: translate(0, 0) scale(1); }
+    10% { transform: translate(-2px, 2px) scale(1.03); }
+    20% { transform: translate(-2px, -2px) scale(0.97); }
+    30% { transform: translate(2px, 2px) scale(1.03); }
+    40% { transform: translate(2px, -2px) scale(0.97); }
+    50% { transform: translate(-2px, 2px) scale(1.03); }
+    60% { transform: translate(-2px, -2px) scale(0.97); }
+    70% { transform: translate(2px, 2px) scale(1.03); }
+    80% { transform: translate(2px, -2px) scale(0.97); }
+    90% { transform: translate(-2px, 2px) scale(1.03); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes atom-core-color {
+    0% { filter: drop-shadow(0 0 32px #fff) drop-shadow(0 0 64px #fff) hue-rotate(0deg); }
+    20% { filter: drop-shadow(0 0 32px #ff0) drop-shadow(0 0 64px #0ff) hue-rotate(60deg); }
+    40% { filter: drop-shadow(0 0 32px #0ff) drop-shadow(0 0 64px #f0f) hue-rotate(120deg); }
+    60% { filter: drop-shadow(0 0 32px #f0f) drop-shadow(0 0 64px #ff0) hue-rotate(180deg); }
+    80% { filter: drop-shadow(0 0 32px #fff) drop-shadow(0 0 64px #fff) hue-rotate(240deg); }
+    100% { filter: drop-shadow(0 0 32px #fff) drop-shadow(0 0 64px #fff) hue-rotate(360deg); }
+}
+.atom-orbit.orbit1 {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: atom-orbit-rotate1 4.5s linear infinite;
+}
+.atom-orbit.orbit2 {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    transform: rotate(60deg);
+    animation: atom-orbit-rotate2 6s linear infinite;
+}
+.atom-orbit.orbit3 {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    transform: rotate(120deg);
+    animation: atom-orbit-rotate3 7.5s linear infinite;
+}
+@keyframes atom-orbit-rotate1 {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes atom-orbit-rotate2 {
+    0% { transform: rotate(60deg); }
+    100% { transform: rotate(420deg); }
+}
+@keyframes atom-orbit-rotate3 {
+    0% { transform: rotate(120deg); }
+    100% { transform: rotate(480deg); }
+}
+#seal-glow {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    animation: seal-glow-rotate 4s linear infinite;
+    transform-origin: 50% 50%;
+}
+@keyframes seal-glow-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+#seal-glow circle {
+    fill: url(#radial1);
+    opacity: 0.7;
+    animation: glow-pulse 2.2s infinite;
+}
+@keyframes glow-pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 0.3; }
+    100% { opacity: 0.7; }
+}
+#seal-circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    animation: rotate-seal 8s linear infinite, pulse-white 3s ease infinite;
+    box-shadow: 0 0 40px #fff, 0 0 80px #fff;
+}
+@keyframes rotate-seal {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes pulse-white {
+    0%, 100% { box-shadow: 0 0 40px #fff, 0 0 80px #fff; }
+    50% { box-shadow: 0 0 80px #fff, 0 0 160px #fff; }
+}
+#seal-text {
+    width: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    color: #fff;
+    text-shadow: 0 0 16px #fff, 0 0 32px #fff;
+    animation: flicker 2s infinite alternate;
+    z-index: 10;
+    margin-top: 0;
+    margin-bottom: 18px;
+    pointer-events: none;
+}
+#ritual-progress {
+    width: 80%;
+    max-width: 300px;
+    height: 5px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #6b0000, #a80000);
+    transition: width 0.3s;
+}
+
+/* Результат ритуала */
+#ritual-result {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 60px;
+    min-height: 320px;
+}
+#ritual-emoji-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+}
+.emoji-rain-drop {
+    position: absolute;
+    top: 0;
+    font-size: 2.2rem;
+    opacity: 0.92;
+    pointer-events: none;
+    animation: emoji-rain-fall 2.7s linear forwards;
+    filter: drop-shadow(0 0 8px #fff8);
+}
+@keyframes emoji-rain-fall {
+    0% { transform: translateY(0) scale(1) rotate(-10deg); opacity: 0.92; }
+    80% { opacity: 1; }
+    100% { transform: translateY(220px) scale(1.1) rotate(10deg); opacity: 0; }
+}
+
+/* Список ритуалов */
+#ritual-menu {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: unset;
+    display: block;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Для мобильных */
+@media (max-width: 600px) {
+    h1 { font-size: 2.2rem; }
+    .button { width: 90%; }
+    .small-button { width: 70%; }
+    #seal-container { width: 220px; height: 220px; }
+    .header-container { margin: 30px 0 20px; }
+    .upload-zone { height: 180px; }
+    #image-preview { width: 180px; height: 180px; }
+    #ritual-menu { margin-top: 10px; }
+}
+
+/* 3. Стилизация и анимация кнопок ритуалов */
+.ritual-float {
+    position: absolute;
+    margin: 0;
+    pointer-events: auto;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #000, 0 0 40px #000a;
+    background: rgba(0,40,0,0.45);
+    border: 2px solid #003300;
+    transition: box-shadow 0.3s, background 0.3s, filter 0.2s;
+    width: 170px;
+    height: 170px;
+    max-width: 100vw;
+    max-height: 100vw;
+    overflow: visible;
+}
+.ritual-float:hover {
+    animation: shake 0.4s linear infinite;
+    box-shadow: 0 0 40px #fff, 0 0 80px #222;
+    filter: brightness(1.2) contrast(1.2);
+}
+@keyframes shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+    20% { transform: translate(-1px, -1px) rotate(0.5deg); }
+    30% { transform: translate(1px, 1px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(0.5deg); }
+    50% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+    60% { transform: translate(-1px, -1px) rotate(0deg); }
+    70% { transform: translate(1px, 1px) rotate(0.5deg); }
+    80% { transform: translate(1px, -1px) rotate(-0.5deg); }
+    90% { transform: translate(-1px, 1px) rotate(0.5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+#main-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    min-height: 400px;
+    padding-top: 0;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 30vh;
+    min-height: 260px;
+    margin-top: 4vh;
+}
+
+#main-page .button#show-rituals-btn, .button#show-rituals-btn {
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+#main-page .button#show-rituals-btn:hover {
+    animation: show-rituals-btn-flicker-hover 0.5s infinite alternate !important;
+    text-shadow: 0 0 48px #fff, 0 0 96px #fff, 0 0 64px #ff2222, 0 0 128px #ff2222, 0 0 96px #fff8;
+    filter: brightness(1.3) contrast(1.2);
+    transition: text-shadow 0.2s, filter 0.2s;
+}
+#main-page .button#show-rituals-btn {
+    animation: show-rituals-btn-flicker 1.2s infinite alternate, float-ritual-btn 4s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 18px #fff, 0 0 36px #fff, 0 0 24px #ff2222, 0 0 48px #ff2222, 0 0 64px #fff4;
+    color: #fff;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    margin: 0;
+    transition: none;
+}
+@keyframes show-rituals-btn-flicker {
+    0% { opacity: 0.7; text-shadow: 0 0 8px #fff, 0 0 16px #ff2222, 0 0 24px #fff4; }
+    50% { opacity: 1; text-shadow: 0 0 32px #fff, 0 0 64px #ff2222, 0 0 48px #fff4; }
+    100% { opacity: 0.7; text-shadow: 0 0 8px #fff, 0 0 16px #ff2222, 0 0 24px #fff4; }
+}
+@keyframes show-rituals-btn-flicker-hover {
+    0% { opacity: 0.7; text-shadow: 0 0 24px #fff, 0 0 48px #ff2222, 0 0 32px #fff8; }
+    50% { opacity: 1; text-shadow: 0 0 96px #fff, 0 0 192px #ff2222, 0 0 64px #fff; }
+    100% { opacity: 0.7; text-shadow: 0 0 24px #fff, 0 0 48px #ff2222, 0 0 32px #fff8; }
+}
+@keyframes float-ritual-btn {
+    0%, 100% { transform: translateY(0); }
+    20% { transform: translateY(-6px); }
+    50% { transform: translateY(4px); }
+    80% { transform: translateY(-3px); }
+}
+
+/* Добавляю стиль для маленьких кнопок подтверждения */
+.modal-confirm-btn {
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    font-size: 1.2rem !important;
+    border-radius: 50% !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.modal-confirm-btn#ritual-confirm-yes:hover {
+    animation: modal-btn-red-flicker 0.7s infinite alternate;
+    color: #fff !important;
+    box-shadow: 0 0 24px #ff4444, 0 0 40px #ff0000, inset 0 0 18px #ff4444, inset 0 0 32px #ff0000;
+}
+.modal-confirm-btn#ritual-confirm-no:hover {
+    animation: modal-btn-blue-flicker 0.7s infinite alternate;
+    color: #fff !important;
+    box-shadow: 0 0 24px #44eaff, 0 0 40px #00eaff, inset 0 0 18px #44eaff, inset 0 0 32px #00eaff;
+}
+@keyframes modal-btn-red-flicker {
+    0% { box-shadow: 0 0 8px #ff0000, 0 0 16px #ff0000; background: #1a0000; }
+    100% { box-shadow: 0 0 24px #ff4444, 0 0 40px #ff0000; background: #330000; }
+}
+@keyframes modal-btn-blue-flicker {
+    0% { box-shadow: 0 0 8px #00eaff, 0 0 16px #00eaff; background: #001a1a; }
+    100% { box-shadow: 0 0 24px #44eaff, 0 0 40px #00eaff; background: #003333; }
+}
+#ritual-confirm-yes {
+    animation: none;
+}
+#ritual-confirm-no {
+    animation: none;
+}
+/* --- НОВЫЙ СТИЛЬ: КОМПАКТНЫЙ ЗАМОК С БЕЛЫМ СВЕЧЕНИЕМ --- */
+#perform-ritual-btn {
+    position: relative;
+    z-index: 2;
+    width: auto;
+    height: auto;
+    min-width: unset;
+    min-height: unset;
+    max-width: unset;
+    max-height: unset;
+    background: none;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    overflow: visible;
+    margin-top: 38px;
+    padding: 0;
+    transition: none;
+}
+#perform-ritual-btn .seal-svg {
+    width: 60px;
+    height: 100px;
+    display: block;
+    margin: 0 auto 8px auto;
+    filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 24px #fff8);
+    transition: filter 0.2s;
+}
+#perform-ritual-btn .seal-flame {
+    opacity: 0;
+    transition: opacity 0.18s;
+}
+#perform-ritual-btn:hover .seal-svg {
+    filter: drop-shadow(0 0 64px #fff) drop-shadow(0 0 128px #fff8) drop-shadow(0 0 96px gold);
+}
+#perform-ritual-btn:hover .seal-flame {
+    opacity: 1;
+    animation: flame-flicker 0.7s infinite alternate;
+}
+@keyframes flame-flicker {
+    0% { transform: scaleY(1) scaleX(1); filter: blur(0.5px); }
+    50% { transform: scaleY(1.08) scaleX(0.95) translateY(-2px); filter: blur(1.2px); }
+    100% { transform: scaleY(1) scaleX(1); filter: blur(0.5px); }
+}
+#perform-ritual-btn:hover {
+    animation: lock-shake 0.5s infinite;
+}
+@keyframes lock-shake {
+    0% { transform: translate(0,0) rotate(0deg); }
+    10% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+    20% { transform: translate(-1px, -1px) rotate(0.5deg); }
+    30% { transform: translate(1px, 1px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(0.5deg); }
+    50% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+    60% { transform: translate(-1px, -1px) rotate(0deg); }
+    70% { transform: translate(1px, 1px) rotate(0.5deg); }
+    80% { transform: translate(1px, -1px) rotate(-0.5deg); }
+    90% { transform: translate(-1px, 1px) rotate(0.5deg); }
+    100% { transform: translate(0,0) rotate(0deg); }
+}
+#perform-ritual-btn .lock-shackle {
+    transform-origin: 60px 44px;
+    transition: transform 0.35s cubic-bezier(.4,2,.4,1);
+    /* Открытое положение по умолчанию */
+    transform: rotate(-60deg) translateY(18px);
+}
+#perform-ritual-btn:hover .lock-shackle {
+    /* Закрытое положение при наведении */
+    transform: rotate(0deg) translateY(0);
+}
+#perform-ritual-btn .lock-body {
+    filter: drop-shadow(0 0 2px #fff8);
+}
+#perform-ritual-btn .lock-keyhole {
+    filter: drop-shadow(0 0 1px #fff8);
+}
+#perform-ritual-btn .lock-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 0 0 8px #fff, 0 0 16px #fff8;
+    margin-top: -6px;
+    z-index: 2;
+    pointer-events: none;
+    user-select: none;
+    position: relative;
+}
+
+/* --- HTML кнопки --- */
+/*
+<button class="button hidden" id="perform-ritual-btn">
+  <svg class="seal-svg" viewBox="0 0 60 100">
+    <!-- Тело свечи -->
+    <rect x="18" y="38" width="24" height="48" rx="8" fill="#fff" stroke="#ccc" stroke-width="2"/>
+    <!-- Тень на свече -->
+    <ellipse cx="30" cy="86" rx="10" ry="4" fill="#bbb" opacity="0.18"/>
+    <!-- Фитиль -->
+    <rect x="28" y="30" width="4" height="12" rx="2" fill="#444"/>
+    <!-- Пламя (по умолчанию скрыто) -->
+    <ellipse class="seal-flame" cx="30" cy="26" rx="7" ry="13" fill="gold" opacity="0.85"/>
+    <ellipse class="seal-flame" cx="30" cy="26" rx="3" ry="6" fill="#fffbe8" opacity="0.85"/>
+  </svg>
+  <span class="lock-text" style="margin-top: -6px;">Наложить печать</span>
+</button>
+*/
+
+// ... существующий код ...
+
+// В разметке кнопки заменяю содержимое на:
+// <button class="button hidden" id="perform-ritual-btn">
+//   <svg class="seal-svg" viewBox="0 0 60 100">
+//     <!-- Тело свечи -->
+//     <rect x="18" y="38" width="24" height="48" rx="8" fill="#fff" stroke="#ccc" stroke-width="2"/>
+//     <!-- Тень на свече -->
+//     <ellipse cx="30" cy="86" rx="10" ry="4" fill="#bbb" opacity="0.18"/>
+//     <!-- Фитиль -->
+//     <rect x="28" y="30" width="4" height="12" rx="2" fill="#444"/>
+//     <!-- Пламя (по умолчанию скрыто) -->
+//     <ellipse class="seal-flame" cx="30" cy="26" rx="7" ry="13" fill="gold" opacity="0.85"/>
+//     <ellipse class="seal-flame" cx="30" cy="26" rx="3" ry="6" fill="#fffbe8" opacity="0.85"/>
+//   </svg>
+//   <span class="lock-text" style="margin-top: -6px;">Наложить печать</span>
+// </button>
+
+// ... существующий код ...
+
+// В JS ничего менять не нужно, только если вы явно не меняете innerHTML этой кнопки где-то ещё.
+
+/* Центрирование блока загрузки фото */
+#photo-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+
+/* Overlay для мерцания и дрожания экрана во время ритуала */
+#ritual-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 3000;
+    pointer-events: none;
+    background: rgba(0,0,0,0.2);
+    animation: ritual-overlay-flicker 0.18s infinite alternate;
+}
+@keyframes ritual-overlay-flicker {
+    0% { filter: brightness(1.2) contrast(1.3) blur(2px); background: rgba(0,0,0,0.18); transform: scale(1.03) rotate(-2deg) translate(-8px, 6px); }
+    20% { filter: brightness(0.8) contrast(1.5) blur(3px); background: rgba(0,0,0,0.28); transform: scale(1.01) rotate(2deg) translate(8px, -6px); }
+    40% { filter: brightness(1.3) contrast(1.1) blur(2px); background: rgba(0,0,0,0.22); transform: scale(0.97) rotate(-3deg) translate(-10px, 8px); }
+    60% { filter: brightness(1.1) contrast(1.4) blur(3px); background: rgba(0,0,0,0.25); transform: scale(1.04) rotate(3deg) translate(10px, -8px); }
+    80% { filter: brightness(1.3) contrast(1.2) blur(2px); background: rgba(0,0,0,0.20); transform: scale(0.98) rotate(-2deg) translate(-8px, 6px); }
+    100% { filter: brightness(1.1) contrast(1.3) blur(3px); background: rgba(0,0,0,0.25); transform: scale(1.02) rotate(2deg) translate(8px, -6px); }
+}
+#ritual-symbols {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 3100;
+    pointer-events: none;
+    overflow: visible;
+}
+.ritual-symbol {
+    position: absolute;
+    font-size: 2.5rem;
+    color: #fff;
+    opacity: 0.7;
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 16px #ff0);
+    animation: ritual-symbol-float 2.5s linear infinite;
+}
+@keyframes ritual-symbol-float {
+    0% { opacity: 0.7; transform: translateY(0) scale(1) rotate(0deg); }
+    50% { opacity: 1; transform: translateY(-60px) scale(1.2) rotate(10deg); }
+    100% { opacity: 0.7; transform: translateY(0) scale(1) rotate(-10deg); }
+}
+/* Молнии: падение сверху, удар о круг, падение вниз */
+.ritual-lightning {
+    will-change: transform, opacity;
+    z-index: 1;
+    filter: drop-shadow(0 0 16px #fff) drop-shadow(0 0 32px #fff);
+    transition: none;
+}
+@keyframes lightning-fall {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.85;
+    }
+    85% {
+        transform: translateY(var(--hitY)) scale(1.25);
+        opacity: 1;
+        filter: drop-shadow(0 0 48px #fff) drop-shadow(0 0 96px #fff) brightness(2);
+    }
+    100% {
+        transform: translateY(var(--hitY)) scale(1.1);
+        opacity: 1;
+    }
+}
+@keyframes lightning-fall-down {
+    0% {
+        opacity: 1;
+        filter: drop-shadow(0 0 32px #fff) drop-shadow(0 0 64px #fff) brightness(2);
+        transform: translateY(var(--hitY)) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(calc(var(--hitY) + var(--fallY))) scale(0.7);
+        filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 16px #fff);
+    }
+}
+@keyframes comet-fly {
+    0% { opacity: 0.85; transform: translate(0, 0) scale(1); filter: blur(0px); }
+    80% { opacity: 1; filter: blur(0px); }
+    90% { opacity: 1; filter: blur(1.5px); }
+    100% { opacity: 0; transform: translate(var(--comet-dx), var(--comet-dy)) scale(0.9); filter: blur(2.5px); }
+}
+.ritual-comet {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform, opacity, filter;
+    text-shadow: 0 0 12px #fff, 0 0 24px #fff, 0 0 32px #fff7;
+    filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 16px #fff7);
+    transition: none;
+}
+#reset-btn {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    width: 140px !important;
+    font-size: 0.95rem !important;
+    padding: 7px 0 !important;
+    margin: 0 !important;
+    border-radius: 16px !important;
+    opacity: 0.92;
+    z-index: 100;
+    background: #444 !important;
+    border: 2px solid #444 !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    transition: background 0.2s, color 0.2s;
+    filter: none !important;
+}
+#reset-btn:hover {
+    background: #666 !important;
+    color: #fff !important;
+}
+#radio-mute-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 5000;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 1.7rem;
+  box-shadow: 0 0 12px #8a2be2;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+#radio-mute-btn:hover {
+  background: #8a2be2;
+  color: #fff;
+  box-shadow: 0 0 24px #fff;
+}
+/* Добавить стиль для горизонтального расположения фото при привороте */
+.love-photo-row {
+    margin-top: 64px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+}
+.love-photo-row > div {
+    min-width: 260px;
+    flex-shrink: 0;
+}
+
+/* --- CSS для финального фото и печати --- */
+.final-photo-container {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 24px #fff8, 0 0 48px #8a2be244;
+    border: 2.5px solid #fff;
+    background: #111;
+    margin: 0 8px;
+    width: 220px;
+    height: 220px;
+}
+.final-photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.stamp {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    opacity: 0.98;
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.final-photo-label {
+    display: block;
+    text-align: center;
+    color: #fff;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-top: 18px;
+    text-shadow: 0 0 12px #fff, 0 0 24px #fff, 0 0 32px #fff8;
+    filter: drop-shadow(0 0 8px #fff);
+    user-select: none;
+}
+// ... existing code ...
+function lockSVG() {
+    return `<svg width="70" height="70" viewBox="0 0 60 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 24px #fff);">
+      <rect x="15" y="38" width="30" height="38" rx="8" fill="#fff" stroke="#fff" stroke-width="2"/>
+      <ellipse cx="30" cy="76" rx="10" ry="4" fill="#fff" opacity="0.18"/>
+      <rect x="27" y="30" width="6" height="12" rx="3" fill="#fff"/>
+      <ellipse cx="30" cy="26" rx="7" ry="13" fill="#fff" opacity="0.85"/>
+      <ellipse cx="30" cy="26" rx="3" ry="6" fill="#fff" opacity="0.85"/>
+      <path d="M18 38 Q30 10 42 38" stroke="#fff" stroke-width="5" fill="none"/>
+    </svg>`;
+}
+// ... existing code ...
+// В showRitualResult() добавляю вывод фото с замком и подписью:
+// ...
+let photoHtml = '';
+if (selectedRitual === 'love' && currentFileDataUrl && currentFile2DataUrl) {
+    photoHtml = `<div class="final-photo-row">
+        <div class="final-photo-container"><img src="${currentFileDataUrl}" alt="Фото 1"><div class="stamp">${lockSVG()}</div></div>
+        <div class="final-photo-container"><img src="${currentFile2DataUrl}" alt="Фото 2"><div class="stamp">${lockSVG()}</div></div>
+    </div><span class='final-photo-label'>Печать наложена</span>`;
+} else if (currentFileDataUrl) {
+    photoHtml = `<div class="final-photo-container"><img src="${currentFileDataUrl}" alt="Фото"><div class="stamp">${lockSVG()}</div></div><span class='final-photo-label'>Печать наложена</span>`;
+}
+resultText.innerHTML = photoHtml + `<div style='margin-top:18px;white-space:pre-line;'>${formatted}</div>`;
+// ... existing code ...
+@media (max-width: 600px) {
+  #mobile-blocker {
+    display: flex !important;
+  }
+  body > :not(#mobile-blocker) {
+    display: none !important;
+  }
+}
+#mobile-blocker {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: #000;
+  color: #fff;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.98rem;
+  padding: 18px 6px;
+  pointer-events: none;
+}
+#mobile-blocker .pc-icon {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 8px #fff8);
+  pointer-events: none;
+}
+#mobile-blocker .blocker-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  #mobile-blocker-special {
+    display: flex !important;
+    position: fixed !important;
+    z-index: 99999 !important;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000 !important;
+    color: #fff !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Playfair Display', serif, sans-serif;
+  }
+  body > :not(#mobile-blocker-special) {
+    display: none !important;
+  }
+}
+#mobile-blocker-special { display: none; }
+</style>
+<!-- SVG фильтр для ряби -->
+<svg width="0" height="0" style="position:absolute">
+  <filter id="water-distort">
+    <feTurbulence id="turb" type="turbulence" baseFrequency="0.015 0.015" numOctaves="2" seed="2" result="turb"/>
+    <feDisplacementMap in2="turb" in="SourceGraphic" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="water-distort-weak">
+    <feTurbulence id="turb-weak" type="turbulence" baseFrequency="0.008 0.008" numOctaves="2" seed="3" result="turb"/>
+    <feDisplacementMap in2="turb" in="SourceGraphic" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="water-distort-title">
+    <feTurbulence id="turb-title" type="turbulence" baseFrequency="0.022 0.022" numOctaves="2" seed="7" result="turb"/>
+    <feDisplacementMap in2="turb" in="SourceGraphic" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+</head>
+<body>
+<style>
+@media (max-width: 600px) {
+  #mobile-blocker-special {
+    display: flex !important;
+    position: fixed !important;
+    z-index: 99999 !important;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000 !important;
+    color: #fff !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Playfair Display', serif, sans-serif;
+  }
+  body > :not(#mobile-blocker-special) {
+    display: none !important;
+  }
+}
+#mobile-blocker-special { display: none; }
+</style>
+<div id="mobile-blocker-special">
+  <div style="font-size:2.2rem;margin-bottom:12px;filter:drop-shadow(0 0 8px #fff8);">🖥️</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:0.5em;font-size:0.98rem;">
+    <span style="font-size:1.3em;">🔮</span>
+    <span>Архив Ритуалов можно открыть только на PC</span>
+  </div>
+</div>
+
+<div id="emoji-bg"></div>
+
+<div id="main-page">
+  <div class="main-content">
+    <div class="header-container">
+      <h1> Архив Ритуалов </h1>
+    </div>
+    <button class="button" id="show-rituals-btn"> Выбрать ритуал</button>
+  </div>
+</div>
+
+<div id="ritual-menu" class="hidden">
+    <button class="button" data-ritual="love">❤️‍🔥 Приворот</button>
+    <button class="button" data-ritual="sickness">🦠  Болезнь</button>
+    <button class="button" data-ritual="death">💀   Смерть</button>
+    <button class="button" data-ritual="wealth">💰 Богатство</button>
+    <button class="button" data-ritual="health">🩺 Здоровье</button>
+</div>
+
+<!-- Модальное предупреждение -->
+<div id="ritual-confirm-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; align-items: center; justify-content: center;">
+  <div style="background: #181818; border-radius: 64px; box-shadow: 0 0 24px #000a; padding: 36px 32px; text-align: center; max-width: 90vw; min-width: 260px; border: 2px solid #fff;">
+    <div style="font-size: 1.3rem; color: #fff; margin-bottom: 28px;">
+      Вы точно хотите совершить ритуал <span id="ritual-confirm-name" style="color:#b6ffb6"></span>?
+    </div>
+    <button id="ritual-confirm-yes" class="button modal-confirm-btn" style="margin: 0 12px 0 0;">Да</button>
+    <button id="ritual-confirm-no" class="button modal-confirm-btn">Нет</button>
+  </div>
+</div>
+
+<div id="photo-upload" class="hidden">
+    <div class="upload-container" id="upload-container">
+        <!-- Контент для загрузки фото будет динамически меняться -->
+    </div>
+    <button class="button hidden" id="perform-ritual-btn">
+      <svg class="seal-svg" viewBox="0 0 60 100">
+        <!-- Тело свечи -->
+        <rect x="18" y="38" width="24" height="48" rx="8" fill="#fff" stroke="#ccc" stroke-width="2"/>
+        <!-- Тень на свече -->
+        <ellipse cx="30" cy="86" rx="10" ry="4" fill="#bbb" opacity="0.18"/>
+        <!-- Фитиль -->
+        <rect x="28" y="30" width="4" height="12" rx="2" fill="#444"/>
+        <!-- Пламя (по умолчанию скрыто) -->
+        <ellipse class="seal-flame" cx="30" cy="26" rx="7" ry="13" fill="gold" opacity="0.85"/>
+        <ellipse class="seal-flame" cx="30" cy="26" rx="3" ry="6" fill="#fffbe8" opacity="0.85"/>
+      </svg>
+      <span class="lock-text">Наложить печать</span>
+    </button>
+</div>
+
+<div id="ritual-result" class="hidden">
+    <div id="ritual-emoji-rain"></div>
+    <p id="result-text"></p>
+    <button class="button small-button" id="reset-btn">⟳ Совершить другой ритуал</button>
+</div>
+
+<div id="seal-ritual" class="hidden">
+  <div id="seal-container">
+    <div id="seal-visuals">
+      <svg id="seal-3d" width="100%" height="100%" viewBox="0 0 280 280" style="position:absolute;top:0;left:0;z-index:2;pointer-events:none;">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff"/>
+            <stop offset="60%" stop-color="#fff" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0.2"/>
+          </radialGradient>
+        </defs>
+        <!-- Ядро -->
+        <circle id="atom-core" cx="140" cy="140" r="32" fill="url(#coreGlow)"/>
+        <!-- Орбиты -->
+        <g>
+          <ellipse class="atom-orbit orbit1" cx="140" cy="140" rx="70" ry="28" fill="none" stroke="#fff" stroke-width="2" opacity="0.7"/>
+          <ellipse class="atom-orbit orbit2" cx="140" cy="140" rx="70" ry="28" fill="none" stroke="#fff" stroke-width="2" opacity="0.5"/>
+          <ellipse class="atom-orbit orbit3" cx="140" cy="140" rx="70" ry="28" fill="none" stroke="#fff" stroke-width="2" opacity="0.4"/>
+        </g>
+      </svg>
+      <svg id="seal-glow" width="100%" height="100%" viewBox="0 0 280 280" style="position:absolute;top:0;left:0;z-index:1;pointer-events:none;">
+        <circle cx="140" cy="140" r="90" fill="url(#radial1)" opacity="0.7">
+          <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="140" cy="140" r="70" fill="url(#radial2)" opacity="0.5">
+          <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.7s" repeatCount="indefinite"/>
+        </circle>
+        <defs>
+          <radialGradient id="radial1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff"/>
+            <stop offset="60%" stop-color="#eee"/>
+            <stop offset="100%" stop-color="#bbb"/>
+          </radialGradient>
+          <radialGradient id="radial2" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff"/>
+            <stop offset="60%" stop-color="#eee"/>
+            <stop offset="100%" stop-color="#bbb"/>
+          </radialGradient>
+        </defs>
+      </svg>
+      <div id="seal-circle"></div>
+    </div>
+  </div>
+  <div id="seal-text">Идет наложение печати...</div>
+  <div id="ritual-progress">
+    <div id="progress-bar"></div>
+  </div>
+</div>
+
+<div id="ritual-overlay"></div>
+<div id="ritual-symbols"></div>
+
+<!-- Удалить все существующие аудио элементы и добавить только этот -->
+<audio id="ritual-rrr" preload="auto">
+    <source src="rrrrrrr.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+document.getElementById('bg-music-btn').onclick = function() {
+  var bgAudio = document.getElementById('background-atmo');
+  if (bgAudio) {
+    bgAudio.volume = 0.18;
+    bgAudio.play().then(() => {
+      this.style.display = 'none';
+    }).catch((e) => {
+      alert('Ошибка воспроизведения: ' + e.message);
+    });
+  }
+};
+</script>
+
+<script>
+// Константы
+const RITUAL_TEXTS = {
+    love: "Нить страсти вплетена. Архив принял ритуал. Связь создана.",
+    sickness: "Семя увядания посеяно. Архив наложил печать скорби.",
+    death: "Тьма призвана. Печать небытия закреплена Архивом.",
+    wealth: "Золото грёз начертано. Архив открыл врата изобилия.",
+    health: "Эликсир жизни вложен. Архив благословил путь исцеления."
+};
+
+const RITUAL_NAMES = {
+    love: '"Приворот"',
+    sickness: '"Порча на болезнь"',
+    death: '"Порча на смерть"',
+    wealth: '"Богатство"',
+    health: '"Здоровье"'
+};
+
+// Для seal-text: эмодзи над названием
+const RITUAL_SEAL_NAMES = {
+    love: {emoji: '❤️‍🔥', name: 'Приворот'},
+    sickness: {emoji: '🦠', name: 'Порча на болезнь'},
+    death: {emoji: '💀', name: 'Порча на смерть'},
+    wealth: {emoji: '💸', name: 'Богатство'},
+    health: {emoji: '💊', name: 'Здоровье'}
+};
+
+// Глобальные переменные
+let selectedRitual = '';
+let currentFile = null;
+let currentFile2 = null;
+let ritualProgressInterval;
+let pendingRitual = '';
+let thunderAudio = null;
+let cometInterval = null;
+let cometActive = false;
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', initApp);
+
+function initApp() {
+    createEmojiBackground();
+    setupEventListeners();
+}
+
+// Анимированные эмодзи на фоне
+function createEmojiBackground() {
+    const emojis = ['❤️‍🔥', '🌙', '🔮', '🕯', '🩸', '🧿'];
+    const emojiContainer = document.getElementById('emoji-bg');
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < 50; i++) {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = `${Math.random() * 100}vw`;
+        emoji.style.top = `${Math.random() * 100}vh`;
+        emoji.style.animationDuration = `${15 + Math.random() * 10}s`;
+        fragment.appendChild(emoji);
+    }
+    emojiContainer.appendChild(fragment);
+}
+
+// Настройка всех обработчиков событий
+function setupEventListeners() {
+    // Основные кнопки
+    document.getElementById('show-rituals-btn').addEventListener('click', showRitualMenu);
+    document.getElementById('reset-btn').addEventListener('click', resetApp);
+    document.getElementById('perform-ritual-btn').addEventListener('click', (e) => {
+        playRitualBtnSound(); // звук нажатия на "Наложить печать"
+        startRitual();
+    });
+
+    // Кнопки выбора ритуала
+    document.querySelectorAll('#ritual-menu .button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            playRitualBtnSound(); // звук до любых действий
+            pendingRitual = btn.dataset.ritual;
+            showRitualConfirmModal();
+        });
+    });
+
+    // Drag & Drop
+    const uploadZone = document.getElementById('upload-zone');
+    const photoInput = document.getElementById('photo-input');
+
+    uploadZone.addEventListener('dragover', handleDragOver);
+    uploadZone.addEventListener('dragleave', handleDragLeave);
+    uploadZone.addEventListener('drop', handleDrop);
+    uploadZone.addEventListener('click', () => photoInput.click());
+    photoInput.addEventListener('change', handleFileSelect);
+}
+
+function playRitualBtnSound() {
+    const audio = document.getElementById('ritual-btn-sound');
+    if (audio) {
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                // showNotification('🔊 Разрешите воспроизведение звука для полного эффекта!');
+            });
+        }
+    }
+}
+
+// Обработчики Drag & Drop
+function handleDragOver(e) {
+    e.preventDefault();
+    document.getElementById('upload-zone').classList.add('dragover');
+}
+
+function handleDragLeave() {
+    document.getElementById('upload-zone').classList.remove('dragover');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    handleDragLeave();
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        const file = e.dataTransfer.files[0];
+        handleFileSelection(file);
+    }
+}
+
+// Обработка выбранного файла
+function handleFileSelect(e) {
+    if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        handleFileSelection(file);
+    }
+}
+
+// Обработка выбранного файла
+function handleFileSelection(file) {
+    if (!file.type.startsWith('image/')) {
+        showNotification('⚠️ Только изображения (JPEG, PNG...)');
+        return;
+    }
+
+    currentFile = file;
+    showFilePreview(file);
+}
+
+// Показ превью файла
+function showFilePreview(file) {
+    const reader = new FileReader();
+    const imagePreview = document.getElementById('image-preview');
+    const uploadZone = document.getElementById('upload-zone');
+
+    reader.onload = (e) => {
+        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Превью">`;
+        imagePreview.classList.remove('hidden');
+        uploadZone.classList.add('hidden');
+        document.getElementById('perform-ritual-btn').classList.remove('hidden');
+        // Скрыть надпись-инструкцию, если есть
+        var hint = document.querySelector("p[id^='photo-upload-hint']");
+        if (hint) hint.style.display = 'none';
+        document.getElementById('photo-input').value = '';
+    };
+    
+    reader.onerror = () => {
+        showNotification('Ошибка загрузки изображения');
+    };
+    
+    reader.readAsDataURL(file);
+}
+
+// Навигация
+function showRitualMenu() {
+    hideAllScreens();
+    document.getElementById('ritual-menu').classList.remove('hidden');
+    document.querySelectorAll('#ritual-menu .button').forEach((btn) => {
+        btn.classList.add('ritual-float');
+        btn.style.animationDelay = '';
+        // Удаляю SVG-рамку, если есть
+        const oldFrame = btn.querySelector('.ritual-svg-frame');
+        if (oldFrame) oldFrame.remove();
+        btn.style.position = 'absolute';
+        btn.style.overflow = 'visible';
+        btn.style.paddingTop = '';
+        btn.style.paddingBottom = '';
+        // --- Новый контент: SVG котелок + текст ---
+        const ritual = btn.dataset.ritual;
+        const iconMap = {
+          love: '❤️‍🔥',
+          sickness: '🦠',
+          death: '☠️',
+          wealth: '💰',
+          health: '🩺'
+        };
+        const nameMap = {
+          love: 'Приворот',
+          sickness: 'Болезнь',
+          death: 'Смерть',
+          wealth: 'Богатство',
+          health: 'Здоровье'
+        };
+        btn.innerHTML = `
+          <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <span style="font-size:2.1rem;line-height:1;z-index:2;text-shadow:0 0 12px #fff,0 0 24px #fff,0 0 32px #fff8;">${ritual === 'health' ? '💊' : (iconMap[ritual]||'🔮')}</span>
+            <div style="position:relative;width:100%;height:68px;display:flex;align-items:center;justify-content:center;z-index:1;">
+              <svg viewBox='0 0 100 80' width='100%' height='100%' style='position:absolute;top:0;left:0;z-index:1;'>
+                <!-- Много зеленого дыма -->
+                <ellipse cx='50' cy='28' rx='13' ry='7' fill='rgba(80,255,120,0.18)'/>
+                <ellipse cx='44' cy='24' rx='6' ry='3' fill='rgba(80,255,120,0.13)'/>
+                <ellipse cx='56' cy='22' rx='7' ry='3.5' fill='rgba(80,255,120,0.11)'/>
+                <ellipse cx='52' cy='18' rx='4' ry='2' fill='rgba(80,255,120,0.09)'/>
+                <ellipse cx='48' cy='15' rx='3' ry='1.5' fill='rgba(80,255,120,0.07)'/>
+                <ellipse cx='60' cy='26' rx='5' ry='2.5' fill='rgba(80,255,120,0.10)'/>
+                <ellipse cx='40' cy='20' rx='4' ry='2' fill='rgba(80,255,120,0.08)'/>
+                <!-- Котелок -->
+                <ellipse cx='50' cy='55' rx='38' ry='22' fill='rgba(0,0,0,0.72)' stroke='#444' stroke-width='4'/>
+                <ellipse cx='50' cy='40' rx='32' ry='12' fill='#333' stroke='#666' stroke-width='3'/>
+                <!-- Зелье внутри котелка -->
+                <ellipse cx='50' cy='57' rx='24' ry='10' fill='rgba(60,60,60,0.72)'/>
+                <ellipse cx='32' cy='75' rx='5' ry='3' fill='rgba(0,0,0,0.72)'/>
+                <ellipse cx='68' cy='75' rx='5' ry='3' fill='rgba(0,0,0,0.72)'/>
+                <path d='M12,55 Q0,40 20,40' stroke='#444' stroke-width='4' fill='none'/>
+                <path d='M88,55 Q100,40 80,40' stroke='#444' stroke-width='4' fill='none'/>
+              </svg>
+            </div>
+            <span style="font-size:1.1rem;font-family:'Playfair Display',serif;font-weight:700;letter-spacing:1px;margin-top:4px;z-index:2;">${nameMap[ritual]||''}</span>
+          </div>
+        `;
+    });
+    placeRitualButtons();
+    requestAnimationFrame(animateRitualButtons);
+}
+
+function showPhotoUpload() {
+    hideAllScreens();
+    document.getElementById('photo-upload').classList.remove('hidden');
+    const nameSpan = document.getElementById('photo-ritual-name');
+    if (nameSpan) nameSpan.textContent = RITUAL_NAMES[selectedRitual] || '';
+    resetFileInput();
+    const container = document.getElementById('upload-container');
+    if (selectedRitual === 'love') {
+        container.innerHTML = `
+        <p id="photo-upload-hint" style="font-size: 1.3rem; margin-bottom: 18px; text-align: center; max-width: 340px; word-break: break-word; white-space: normal;">📜 Для активации ритуала <span id="photo-ritual-name" style="color:#b6ffb6">${RITUAL_NAMES[selectedRitual]}</span> требуется два фото:</p>
+        <div class="love-photo-row">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <label class="upload-zone" id="upload-zone-1">
+                <div class="upload-content">
+                    <span class="upload-icon">📸</span>
+                    <span class="upload-text">Фото того, кого нужно приворожить</span>
+                    <span class="upload-hint">Перетащите сюда или кликните</span>
+                </div>
+                <input type="file" accept="image/*" id="photo-input-1" hidden>
+            </label>
+            <div id="image-preview-1" class="hidden"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <label class="upload-zone" id="upload-zone-2" style="margin-top:18px;">
+                <div class="upload-content">
+                    <span class="upload-icon">📸</span>
+                    <span class="upload-text">Фото того, к кому приворожить</span>
+                    <span class="upload-hint">Перетащите сюда или кликните</span>
+                </div>
+                <input type="file" accept="image/*" id="photo-input-2" hidden>
+            </label>
+            <div id="image-preview-2" class="hidden"></div>
+          </div>
+        </div>
+        `;
+        setTimeout(setupLovePhotoUpload, 0);
+    } else {
+        container.innerHTML = `
+        <p id="photo-upload-hint" style="font-size: 1.3rem; margin-bottom: 18px; text-align: center; max-width: 340px; word-break: break-word; white-space: normal;">📜 Для активации ритуала <span id="photo-ritual-name" style="color:#b6ffb6">${RITUAL_NAMES[selectedRitual]}</span> требуется фотография объекта:</p>
+        <label class="upload-zone" id="upload-zone">
+            <div class="upload-content">
+                <span class="upload-icon">📸</span>
+                <span class="upload-text">Место для фото</span>
+                <span class="upload-hint">Перетащите сюда или кликните</span>
+            </div>
+            <input type="file" accept="image/*" id="photo-input" hidden>
+        </label>
+        <div id="image-preview" class="hidden"></div>
+        `;
+        setTimeout(setupSinglePhotoUpload, 0);
+    }
+}
+
+function setupLovePhotoUpload() {
+    currentFile = null;
+    currentFile2 = null;
+    const uploadZone1 = document.getElementById('upload-zone-1');
+    const uploadZone2 = document.getElementById('upload-zone-2');
+    const photoInput1 = document.getElementById('photo-input-1');
+    const photoInput2 = document.getElementById('photo-input-2');
+    if (uploadZone1 && photoInput1) {
+        uploadZone1.addEventListener('dragover', e => { e.preventDefault(); uploadZone1.classList.add('dragover'); });
+        uploadZone1.addEventListener('dragleave', () => uploadZone1.classList.remove('dragover'));
+        uploadZone1.addEventListener('drop', e => { e.preventDefault(); uploadZone1.classList.remove('dragover'); if (e.dataTransfer.files && e.dataTransfer.files[0]) handleLoveFileSelect(e.dataTransfer.files[0], 1); });
+        uploadZone1.addEventListener('click', () => {
+          photoInput1.value = '';
+          photoInput1.click();
+        });
+        photoInput1.addEventListener('change', e => { if (e.target.files && e.target.files[0]) handleLoveFileSelect(e.target.files[0], 1); });
+    }
+    if (uploadZone2 && photoInput2) {
+        uploadZone2.addEventListener('dragover', e => { e.preventDefault(); uploadZone2.classList.add('dragover'); });
+        uploadZone2.addEventListener('dragleave', () => uploadZone2.classList.remove('dragover'));
+        uploadZone2.addEventListener('drop', e => { e.preventDefault(); uploadZone2.classList.remove('dragover'); if (e.dataTransfer.files && e.dataTransfer.files[0]) handleLoveFileSelect(e.dataTransfer.files[0], 2); });
+        uploadZone2.addEventListener('click', () => {
+          photoInput2.value = '';
+          photoInput2.click();
+        });
+        photoInput2.addEventListener('change', e => { if (e.target.files && e.target.files[0]) handleLoveFileSelect(e.target.files[0], 2); });
+    }
+}
+function handleLoveFileSelect(file, which) {
+    if (!file.type.startsWith('image/')) {
+        showNotification('⚠️ Только изображения (JPEG, PNG...)');
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        if (which === 1) {
+            currentFile = file;
+            const preview = document.getElementById('image-preview-1');
+            preview.innerHTML = `<img src="${e.target.result}" alt="Превью">`;
+            preview.classList.remove('hidden');
+            document.getElementById('upload-zone-1').classList.add('hidden');
+            document.getElementById('photo-input-1').value = '';
+        } else {
+            currentFile2 = file;
+            const preview = document.getElementById('image-preview-2');
+            preview.innerHTML = `<img src="${e.target.result}" alt="Превью">`;
+            preview.classList.remove('hidden');
+            document.getElementById('upload-zone-2').classList.add('hidden');
+            document.getElementById('photo-input-2').value = '';
+        }
+        // Скрыть надпись-инструкцию, если есть
+        var hint = document.querySelector("p[id^='photo-upload-hint']");
+        if (hint) hint.style.display = 'none';
+        if (currentFile && currentFile2) document.getElementById('perform-ritual-btn').classList.remove('hidden');
+    };
+    reader.onerror = () => showNotification('Ошибка загрузки изображения');
+    reader.readAsDataURL(file);
+}
+function setupSinglePhotoUpload() {
+    currentFile = null;
+    const uploadZone = document.getElementById('upload-zone');
+    const photoInput = document.getElementById('photo-input');
+    if (uploadZone && photoInput) {
+        uploadZone.addEventListener('dragover', handleDragOver);
+        uploadZone.addEventListener('dragleave', handleDragLeave);
+        uploadZone.addEventListener('drop', handleDrop);
+        uploadZone.addEventListener('click', () => {
+          photoInput.value = '';
+          photoInput.click();
+        });
+        photoInput.addEventListener('change', handleFileSelect);
+    }
+}
+function resetFileInput() {
+    // Для двойной загрузки
+    if (selectedRitual === 'love') {
+        currentFile = null;
+        currentFile2 = null;
+        const preview1 = document.getElementById('image-preview-1');
+        const preview2 = document.getElementById('image-preview-2');
+        if (preview1) { preview1.classList.add('hidden'); preview1.innerHTML = ''; }
+        if (preview2) { preview2.classList.add('hidden'); preview2.innerHTML = ''; }
+        const zone1 = document.getElementById('upload-zone-1');
+        const zone2 = document.getElementById('upload-zone-2');
+        if (zone1) zone1.classList.remove('hidden');
+        if (zone2) zone2.classList.remove('hidden');
+        // СБРОС input'ов
+        const input1 = document.getElementById('photo-input-1');
+        const input2 = document.getElementById('photo-input-2');
+        if (input1) input1.value = '';
+        if (input2) input2.value = '';
+        document.getElementById('perform-ritual-btn').classList.add('hidden');
+    } else {
+        currentFile = null;
+        const preview = document.getElementById('image-preview');
+        if (preview) { preview.classList.add('hidden'); preview.innerHTML = ''; }
+        const zone = document.getElementById('upload-zone');
+        if (zone) zone.classList.remove('hidden');
+        // СБРОС input'а
+        const input = document.getElementById('photo-input');
+        if (input) input.value = '';
+        document.getElementById('perform-ritual-btn').classList.add('hidden');
+    }
+}
+
+// Запуск ритуала
+function startRitual() {
+    if (selectedRitual === 'love') {
+        if (!currentFile || !currentFile2) {
+            showNotification('📸 Для ритуала требуется два фото');
+            return;
+        }
+    } else {
+        if (!currentFile) {
+            showNotification('📸 Для ритуала требуется фото');
+            return;
+        }
+    }
+    if (!selectedRitual) {
+        showNotification('🔮 Сначала выберите ритуал');
+        return;
+    }
+
+    hideAllScreens();
+    document.getElementById('seal-ritual').classList.remove('hidden');
+    showRitualOverlay();
+    
+    // Показываем название ритуала с эмодзи в seal-text (эмодзи над названием)
+    const sealText = document.getElementById('seal-text');
+    if (sealText) {
+        const seal = RITUAL_SEAL_NAMES[selectedRitual] || {emoji: '', name: ''};
+        sealText.innerHTML = `<div style='font-size:2.1rem;line-height:1;'>${seal.emoji}</div><div style='margin-top:2px;'>${seal.name}</div><div style='font-size:1rem;margin-top:8px;'>Идет наложение печати...</div>`;
+    }
+    
+    // Анимация прогресса
+    let progress = 0;
+    document.getElementById('progress-bar').style.width = '0%';
+    
+    ritualProgressInterval = setInterval(() => {
+        progress += 1;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        
+        if (progress >= 100) {
+            clearInterval(ritualProgressInterval);
+            completeRitual();
+        }
+    }, 150);
+}
+
+// Завершение ритуала
+function completeRitual() {
+    if ("vibrate" in navigator) navigator.vibrate([300]);
+    document.getElementById('seal-ritual').classList.add('hidden');
+    hideRitualOverlay();
+    showRitualResult();
+}
+
+// Показ результата
+function showRitualResult() {
+    showEmojiRain(selectedRitual);
+    const raw = RITUAL_TEXTS[selectedRitual];
+    const formatted = raw.replace(/\.\s+/g, '.\n');
+    const resultText = document.getElementById('result-text');
+    resultText.textContent = '';
+    resultText.innerText = formatted;
+    document.getElementById('ritual-result').classList.remove('hidden');
+    document.body.style.background = "#000";
+    
+    // Воспроизводим rrrrrrr.mp3
+    const rrrAudio = document.getElementById('ritual-rrr');
+    if (rrrAudio) {
+        rrrAudio.currentTime = 0;
+        rrrAudio.play().catch(error => {
+            console.error('Ошибка воспроизведения:', error);
+        });
+    }
+}
+
+// Сброс приложения
+function resetApp() {
+    hideAllScreens();
+    document.getElementById('main-page').classList.remove('hidden');
+    resetFileInput();
+    selectedRitual = '';
+    currentFile = null;
+    currentFile2 = null;
+    document.body.style.background = "#000";
+    clearInterval(ritualProgressInterval);
+    clearEmojiRain();
+}
+
+// Утилиты
+function hideAllScreens() {
+    ['main-page', 'ritual-menu', 'photo-upload', 'ritual-result']
+        .forEach(id => document.getElementById(id).classList.add('hidden'));
+}
+
+function showNotification(text) {
+    const notif = document.createElement('div');
+    notif.textContent = text;
+    notif.style.position = 'fixed';
+    notif.style.bottom = '20px';
+    notif.style.left = '50%';
+    notif.style.transform = 'translateX(-50%)';
+    notif.style.background = 'rgba(138, 43, 226, 0.3)';
+    notif.style.color = '#fff';
+    notif.style.border = '1px solid #8a2be2';
+    notif.style.padding = '10px 20px';
+    notif.style.borderRadius = '5px';
+    notif.style.zIndex = '100';
+    document.body.appendChild(notif);
+    
+    setTimeout(() => {
+        notif.style.opacity = '0';
+        setTimeout(() => notif.remove(), 300);
+    }, 2000);
+}
+
+// --- Хаотичное движение ритуалов ---
+const ritualButtons = [];
+const ritualArea = { width: window.innerWidth, height: window.innerHeight };
+const ritualBtnSize = 170; // Диаметр круга
+const ritualMinDist = 210; // Минимальное расстояние между центрами
+const ritualSpeed = 0.5 + Math.random();
+
+const ritualCenterArea = {
+    xMin: window.innerWidth * 0.25,
+    xMax: window.innerWidth * 0.75,
+    yMin: window.innerHeight * 0.25,
+    yMax: window.innerHeight * 0.75
+};
+
+function randomPosCenter() {
+    return {
+        x: ritualCenterArea.xMin + Math.random() * (ritualCenterArea.xMax - ritualCenterArea.xMin - ritualBtnSize),
+        y: ritualCenterArea.yMin + Math.random() * (ritualCenterArea.yMax - ritualCenterArea.yMin - ritualBtnSize)
+    };
+}
+
+function distance(a, b) {
+    return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+}
+
+function placeRitualButtons() {
+    const btns = Array.from(document.querySelectorAll('#ritual-menu .button'));
+    ritualButtons.length = 0;
+    let tries = 0;
+    btns.forEach((btn, i) => {
+        let pos, valid;
+        do {
+            pos = randomPosCenter();
+            valid = ritualButtons.every(rb => distance(rb, pos) > ritualMinDist);
+            tries++;
+        } while (!valid && tries < 100);
+        btn.style.left = pos.x + 'px';
+        btn.style.top = pos.y + 'px';
+        ritualButtons.push({ x: pos.x, y: pos.y, el: btn, angle: Math.random() * Math.PI * 2, speed: 0.2 + Math.random() * 0.3 });
+    });
+}
+
+function animateRitualButtons() {
+    // --- предотвращаем пересечения ---
+    // Сначала двигаем каждую кнопку по синусоиде
+    ritualButtons.forEach((rb, i) => {
+        rb.angle += 0.0015 * rb.speed;
+        const dx = Math.cos(rb.angle + i) * 0.4 * (i+1);
+        const dy = Math.sin(rb.angle + i) * 0.4 * (i+1);
+        let newX = rb.x + dx;
+        let newY = rb.y + dy;
+        newX = Math.max(ritualCenterArea.xMin, Math.min(ritualCenterArea.xMax - ritualBtnSize, newX));
+        newY = Math.max(ritualCenterArea.yMin, Math.min(ritualCenterArea.yMax - ritualBtnSize, newY));
+        rb.x = newX;
+        rb.y = newY;
+    });
+    // Затем проверяем и отталкиваем при сближении
+    for (let i = 0; i < ritualButtons.length; i++) {
+        for (let j = i + 1; j < ritualButtons.length; j++) {
+            const a = ritualButtons[i];
+            const b = ritualButtons[j];
+            const dist = distance(a, b);
+            if (dist < ritualMinDist) {
+                // Вектор отталкивания
+                const angle = Math.atan2(b.y - a.y, b.x - a.x);
+                const overlap = (ritualMinDist - dist) / 2;
+                a.x -= Math.cos(angle) * overlap;
+                a.y -= Math.sin(angle) * overlap;
+                b.x += Math.cos(angle) * overlap;
+                b.y += Math.sin(angle) * overlap;
+                // Ограничиваем в центре
+                a.x = Math.max(ritualCenterArea.xMin, Math.min(ritualCenterArea.xMax - ritualBtnSize, a.x));
+                a.y = Math.max(ritualCenterArea.yMin, Math.min(ritualCenterArea.yMax - ritualBtnSize, a.y));
+                b.x = Math.max(ritualCenterArea.xMin, Math.min(ritualCenterArea.xMax - ritualBtnSize, b.x));
+                b.y = Math.max(ritualCenterArea.yMin, Math.min(ritualCenterArea.yMax - ritualBtnSize, b.y));
+            }
+        }
+    }
+    // Применяем новые координаты
+    ritualButtons.forEach((rb) => {
+        rb.el.style.left = rb.x + 'px';
+        rb.el.style.top = rb.y + 'px';
+    });
+    requestAnimationFrame(animateRitualButtons);
+}
+
+window.addEventListener('resize', () => {
+    ritualArea.width = window.innerWidth;
+    ritualArea.height = window.innerHeight;
+    ritualCenterArea.xMin = window.innerWidth * 0.25;
+    ritualCenterArea.xMax = window.innerWidth * 0.75;
+    ritualCenterArea.yMin = window.innerHeight * 0.25;
+    ritualCenterArea.yMax = window.innerHeight * 0.75;
+    placeRitualButtons();
+});
+
+// Модальное окно подтверждения ритуала
+function showRitualConfirmModal() {
+    const nameSpan = document.getElementById('ritual-confirm-name');
+    nameSpan.textContent = RITUAL_NAMES[pendingRitual] || '';
+    document.getElementById('ritual-confirm-modal').classList.remove('hidden');
+}
+
+function hideRitualConfirmModal() {
+    document.getElementById('ritual-confirm-modal').classList.add('hidden');
+}
+
+// Обработчики для кнопок Да/Нет
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('ritual-confirm-yes').addEventListener('click', () => {
+        hideRitualConfirmModal();
+        selectedRitual = pendingRitual;
+        showPhotoUpload();
+    });
+    document.getElementById('ritual-confirm-no').addEventListener('click', () => {
+        hideRitualConfirmModal();
+        pendingRitual = '';
+        showRitualMenu();
+    });
+});
+
+const RITUAL_MYSTIC_SYMBOLS = ['⚡']; // Только молния
+let ritualSymbolElems = [];
+
+function showRitualOverlay() {
+    document.getElementById('ritual-overlay').style.display = 'block';
+    document.getElementById('ritual-symbols').style.display = 'block';
+    const container = document.getElementById('ritual-symbols');
+    container.innerHTML = '';
+    ritualSymbolElems = [];
+    cometActive = true;
+    launchComets(30);
+}
+
+function launchComets(count) {
+    const container = document.getElementById('ritual-symbols');
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const atomRadius = 140;
+    const cometEmojis = ['🪐', '☄️', '🌠', '⚡'];
+    for (let i = 0; i < count; i++) {
+        let start, end, tries = 0;
+        do {
+            start = randomCometEdge(centerX, centerY, atomRadius + 60);
+            end = randomCometEdge(centerX, centerY, atomRadius + 60);
+            tries++;
+        } while (intersectsCircle(start, end, {x: centerX, y: centerY, r: atomRadius + 60}) && tries < 10);
+        const comet = document.createElement('div');
+        comet.className = 'ritual-comet';
+        comet.textContent = cometEmojis[Math.floor(Math.random() * cometEmojis.length)];
+        comet.style.position = 'fixed';
+        comet.style.left = start.x + 'px';
+        comet.style.top = start.y + 'px';
+        comet.style.fontSize = (2.2 + Math.random()) + 'rem';
+        comet.style.opacity = '0.85';
+        comet.style.pointerEvents = 'none';
+        comet.style.zIndex = '0';
+        const dx = end.x - start.x;
+        const dy = end.y - start.y;
+        const duration = 3.5 + Math.random() * 2.5;
+        comet.style.setProperty('--comet-dx', dx + 'px');
+        comet.style.setProperty('--comet-dy', dy + 'px');
+        comet.style.animation = `comet-fly ${duration}s linear forwards`;
+        container.appendChild(comet);
+        // После завершения анимации — удалить и, если overlay активен, запустить новую комету
+        comet.addEventListener('animationend', function() {
+            comet.remove();
+            if (cometActive) {
+                setTimeout(() => {
+                    if (cometActive) launchComets(1);
+                }, 300 + Math.random() * 700);
+            }
+        });
+    }
+}
+
+// --- Вспомогательные функции для комет ---
+function randomCometEdge(cx, cy, r) {
+    // Случайная точка на краю экрана, вне круга
+    const side = Math.floor(Math.random() * 4);
+    let x, y;
+    if (side === 0) { // top
+        x = Math.random() * window.innerWidth;
+        y = 0;
+    } else if (side === 1) { // right
+        x = window.innerWidth;
+        y = Math.random() * window.innerHeight;
+    } else if (side === 2) { // bottom
+        x = Math.random() * window.innerWidth;
+        y = window.innerHeight;
+    } else { // left
+        x = 0;
+        y = Math.random() * window.innerHeight;
+    }
+    // Если точка внутри круга — сместить
+    if (Math.sqrt((x - cx) ** 2 + (y - cy) ** 2) < r) {
+        const angle = Math.atan2(y - cy, x - cx);
+        x = cx + Math.cos(angle) * (r + 40);
+        y = cy + Math.sin(angle) * (r + 40);
+    }
+    return {x, y};
+}
+
+function intersectsCircle(p1, p2, circle) {
+    // Проверка: пересекает ли отрезок p1-p2 круг (circle: {x, y, r})
+    // Алгоритм: https://stackoverflow.com/a/1084899
+    const dx = p2.x - p1.x;
+    const dy = p2.y - p1.y;
+    const fx = p1.x - circle.x;
+    const fy = p1.y - circle.y;
+    const a = dx * dx + dy * dy;
+    const b = 2 * (fx * dx + fy * dy);
+    const c = (fx * fx + fy * fy) - circle.r * circle.r;
+    let discriminant = b * b - 4 * a * c;
+    if (discriminant < 0) return false;
+    discriminant = Math.sqrt(discriminant);
+    const t1 = (-b - discriminant) / (2 * a);
+    const t2 = (-b + discriminant) / (2 * a);
+    if ((t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1)) return true;
+    return false;
+}
+
+function hideRitualOverlay() {
+    document.getElementById('ritual-overlay').style.display = 'none';
+    document.getElementById('ritual-symbols').style.display = 'none';
+    document.getElementById('ritual-symbols').innerHTML = '';
+    // Остановить гром
+    if (thunderAudio) {
+        thunderAudio.pause();
+        thunderAudio.currentTime = 0;
+    }
+    // Остановить кометы
+    cometActive = false;
+}
+
+// --- Эмодзи-дождь над финальной надписью ---
+function showEmojiRain(ritual) {
+    const rainMap = {
+        health: '💊',
+        love: '❤️‍🔥',
+        sickness: '🦠',
+        death: '💀',
+        wealth: '💸'
+    };
+    const emoji = rainMap[ritual] || '✨';
+    const rainContainer = document.getElementById('ritual-emoji-rain');
+    if (!rainContainer) return;
+    rainContainer.innerHTML = '';
+    const count = 16;
+    for (let i = 0; i < count; i++) {
+        const drop = document.createElement('span');
+        drop.className = 'emoji-rain-drop';
+        drop.textContent = emoji;
+        drop.style.left = (18 + Math.random() * 64) + '%';
+        drop.style.fontSize = (2 + Math.random() * 1.5) + 'rem';
+        drop.style.animationDelay = (Math.random() * 0.7) + 's';
+        rainContainer.appendChild(drop);
+    }
+}
+function clearEmojiRain() {
+    const rainContainer = document.getElementById('ritual-emoji-rain');
+    if (rainContainer) rainContainer.innerHTML = '';
+}
+
+document.getElementById('test-sound-btn').addEventListener('click', function() {
+    const audio = document.getElementById('ritual-btn-sound');
+    if (audio) {
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                // showNotification('✅ Звук воспроизведён!');
+            }).catch(() => {
+                // showNotification('❌ Не удалось воспроизвести звук. Разрешите звук в браузере!');
+            });
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var radio = document.getElementById('mystic-radio');
+  function tryPlayRadio() {
+    if (radio) {
+      radio.play().catch(function(){});
+    }
+    document.removeEventListener('click', tryPlayRadio);
+  }
+  document.addEventListener('click', tryPlayRadio);
+});
+
+document.getElementById('radio-mute-btn').addEventListener('click', function() {
+  var radio = document.getElementById('mystic-radio');
+  if (radio) {
+    radio.pause();
+    radio.currentTime = 0;
+  }
+  this.style.display = 'none';
+});
+
+// После успешного запуска радио делаем кнопку видимой (на всякий случай)
+function showRadioMuteBtn() {
+  var btn = document.getElementById('radio-mute-btn');
+  if (btn) btn.style.display = 'flex';
+}
+var radio = document.getElementById('mystic-radio');
+if (radio) {
+  radio.addEventListener('play', showRadioMuteBtn);
+  // Если радио уже играет (например, после клика)
+  if (!radio.paused) showRadioMuteBtn();
+}
+
+(function() {
+  var radio = document.getElementById('mystic-radio');
+  var btn = document.getElementById('radio-toggle-btn');
+  if (!radio || !btn) return;
+  // Состояние: true — играет, false — выключено
+  var isPlaying = !radio.paused;
+  function updateBtn() {
+    btn.textContent = isPlaying ? '🔇' : '🔊';
+    btn.title = isPlaying ? 'Выключить радио' : 'Включить радио';
+  }
+  btn.addEventListener('click', function() {
+    if (isPlaying) {
+      radio.pause();
+      isPlaying = false;
+    } else {
+      radio.play().then(function(){ isPlaying = true; updateBtn(); }).catch(function(){});
+      // isPlaying обновится в событии play
+    }
+    updateBtn();
+  });
+  radio.addEventListener('play', function() { isPlaying = true; updateBtn(); });
+  radio.addEventListener('pause', function() { isPlaying = false; updateBtn(); });
+  // Инициализация
+  updateBtn();
+})();
+
+// Скрыть основной контент до запуска архива
+window.addEventListener('DOMContentLoaded', function() {
+  var startContainer = document.getElementById('start-archive-container');
+  if (startContainer) {
+    document.getElementById('main-page').style.display = 'none';
+    document.getElementById('ritual-menu').style.display = 'none';
+    document.getElementById('photo-upload').style.display = 'none';
+    document.getElementById('ritual-result').style.display = 'none';
+    document.getElementById('seal-ritual').style.display = 'none';
+  }
+  var startBtn = document.getElementById('start-archive-btn');
+  if (startBtn) {
+    startBtn.onclick = function() {
+      // Включить звук на радио
+      var iframe = document.getElementById('yt-radio-iframe');
+      if (iframe) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+      }
+      // Показать основной контент
+      if (startContainer) startContainer.style.display = 'none';
+      document.getElementById('main-page').style.display = '';
+      document.getElementById('ritual-menu').style.display = '';
+      document.getElementById('photo-upload').style.display = '';
+      document.getElementById('ritual-result').style.display = '';
+      document.getElementById('seal-ritual').style.display = '';
+    };
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var bgAudio = document.getElementById('background-atmo');
+  if (bgAudio) bgAudio.volume = 0.18;
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const turb = document.getElementById('turb');
+  let animId = null;
+  let running = false;
+  function animateWater() {
+    let t = 0;
+    function frame() {
+      t += 0.07;
+      const freq = 0.015 + Math.abs(Math.sin(t)) * 0.015;
+      turb.setAttribute('baseFrequency', freq + ' 0.015');
+      if (running) animId = requestAnimationFrame(frame);
+    }
+    frame();
+  }
+  document.body.addEventListener('mouseenter', () => {
+    running = true;
+    animateWater();
+  });
+  document.body.addEventListener('mouseleave', () => {
+    running = false;
+    cancelAnimationFrame(animId);
+    turb.setAttribute('baseFrequency', '0.015 0.015');
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // ... существующий код ...
+  // Анимация сильной ряби только на заголовке
+  const turbStrong = document.getElementById('turb-strong');
+  let animId2 = null;
+  let running2 = false;
+  function animateWaterStrong() {
+    let t = 0;
+    function frame() {
+      t += 0.09;
+      const freq = 0.045 + Math.abs(Math.sin(t)) * 0.045;
+      turbStrong.setAttribute('baseFrequency', freq + ' 0.045');
+      if (running2) animId2 = requestAnimationFrame(frame);
+    }
+    frame();
+  }
+  const h1 = document.querySelector('.header-container h1');
+  if (h1) {
+    h1.addEventListener('mouseenter', () => {
+      running2 = true;
+      animateWaterStrong();
+    });
+    h1.addEventListener('mouseleave', () => {
+      running2 = false;
+      cancelAnimationFrame(animId2);
+      turbStrong.setAttribute('baseFrequency', '0.045 0.045');
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Анимация ряби на заголовке
+  const turbTitle = document.getElementById('turb-title');
+  let animId = null;
+  let running = false;
+  function animateWaterTitle() {
+    let t = 0;
+    function frame() {
+      t += 0.07;
+      const freq = 0.022 + Math.abs(Math.sin(t)) * 0.012;
+      turbTitle.setAttribute('baseFrequency', freq + ' 0.022');
+      if (running) animId = requestAnimationFrame(frame);
+    }
+    frame();
+  }
+  const h1 = document.querySelector('.header-container h1');
+  if (h1) {
+    h1.addEventListener('mouseenter', () => {
+      running = true;
+      animateWaterTitle();
+      h1.classList.add('water-blur');
+    });
+    h1.addEventListener('mouseleave', () => {
+      running = false;
+      cancelAnimationFrame(animId);
+      turbTitle.setAttribute('baseFrequency', '0.022 0.022');
+      h1.classList.remove('water-blur');
+    });
+  }
+});
+</script>
+</body>
+</html>
