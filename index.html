@@ -1147,17 +1147,45 @@ resultText.innerHTML = photoHtml + `<div style='margin-top:18px;white-space:pre-
     <source src="rrrrrrr.mp3" type="audio/mpeg">
 </audio>
 
+<!-- Добавляем новый аудио элемент для дождя -->
+<audio id="rain-sound" loop>
+    <source src="rain.mp3" type="audio/mpeg">
+</audio>
+
 <script>
+// Добавляем инициализацию звука дождя
+document.addEventListener('DOMContentLoaded', function() {
+    const rainAudio = document.getElementById('rain-sound');
+    if (rainAudio) {
+        rainAudio.volume = 0.35;
+        
+        // Функция для запуска звука
+        function startRainSound() {
+            rainAudio.play().catch(error => {
+                console.log('Звук дождя не смог автоматически воспроизвестись:', error);
+            });
+        }
+        
+        // Пробуем запустить сразу
+        startRainSound();
+        
+        // Добавляем обработчик клика по странице
+        document.body.addEventListener('click', function() {
+            startRainSound();
+        }, { once: true }); // once: true означает, что обработчик сработает только один раз
+    }
+});
+
 document.getElementById('bg-music-btn').onclick = function() {
-  var bgAudio = document.getElementById('background-atmo');
-  if (bgAudio) {
-    bgAudio.volume = 0.18;
-    bgAudio.play().then(() => {
-      this.style.display = 'none';
-    }).catch((e) => {
-      alert('Ошибка воспроизведения: ' + e.message);
-    });
-  }
+    var bgAudio = document.getElementById('background-atmo');
+    if (bgAudio) {
+        bgAudio.volume = 0.18;
+        bgAudio.play().then(() => {
+            this.style.display = 'none';
+        }).catch((e) => {
+            alert('Ошибка воспроизведения: ' + e.message);
+        });
+    }
 };
 </script>
 
@@ -1612,9 +1640,10 @@ function showRitualResult() {
     document.getElementById('ritual-result').classList.remove('hidden');
     document.body.style.background = "#000";
     
-    // Воспроизводим rrrrrrr.mp3
+    // Воспроизводим rrrrrrr.mp3 с максимальной громкостью
     const rrrAudio = document.getElementById('ritual-rrr');
     if (rrrAudio) {
+        rrrAudio.volume = 1.0; // Устанавливаем максимальную громкость (100%)
         rrrAudio.currentTime = 0;
         rrrAudio.play().catch(error => {
             console.error('Ошибка воспроизведения:', error);
