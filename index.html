@@ -987,6 +987,28 @@ resultText.innerHTML = photoHtml + `<div style='margin-top:18px;white-space:pre-
   }
 }
 #mobile-blocker-special { display: none; }
+
+@media (max-width: 600px) {
+  #mobile-blocker-special {
+    display: none !important; /* Отключаем блокер на мобильных */
+  }
+  body > :not(#mobile-blocker-special) {
+    display: block !important; /* Показываем весь контент */
+  }
+  #photo-upload {
+    display: flex !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  .upload-zone {
+    width: 90% !important;
+    max-width: 300px !important;
+  }
+  #image-preview, #image-preview-1, #image-preview-2 {
+    width: 90% !important;
+    max-width: 300px !important;
+  }
+}
 </style>
 <!-- SVG фильтр для ряби -->
 <svg width="0" height="0" style="position:absolute">
