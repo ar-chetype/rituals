@@ -1801,12 +1801,33 @@ function showRitualResult() {
     // Воспроизводим rrrrrrr.mp3 с максимальной громкостью
     const rrrAudio = document.getElementById('ritual-rrr');
     if (rrrAudio) {
-        rrrAudio.volume = 1.0; // Устанавливаем максимальную громкость (100%)
+        rrrAudio.volume = 1.0;
         rrrAudio.currentTime = 0;
         rrrAudio.play().catch(error => {
             console.error('Ошибка воспроизведения:', error);
         });
     }
+
+    // Показываем QR-код через 5 секунд
+    setTimeout(() => {
+        resultText.innerHTML = `
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 2.7rem; color: #fff; margin-bottom: 30px; text-shadow: 0 0 24px #fff, 0 0 48px #fff, 0 0 32px #8a2be2, 0 0 64px #fff;">${formatted}</div>
+                <div style="font-size: 1.8rem; color: #fff; margin: 40px 0 30px; text-shadow: 0 0 10px #8a2be2;">
+                    Чтобы твой Ритуал мог поддерживаться,<br>а печать не сгорела, оставь любую дань Архиву
+                </div>
+                <div style="margin: 20px auto; width: 200px; height: 200px; background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 0 30px #fff, 0 0 60px #fff, 0 0 90px #8a2be2;">
+                    <img src="qrart.JPG" alt="QR код для оплаты" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div style="font-size: 1.2rem; color: #fff; margin-top: 20px; text-shadow: 0 0 5px #fff;">
+                    Райффайзен Банк: 2200 3001 1520 0410
+                </div>
+                <div style="font-size: 1rem; color: #fff; margin-top: 10px; font-style: italic; text-shadow: 0 0 5px #fff;">
+                    С благодарностью, Артур (бухгалтер Архива)
+                </div>
+            </div>
+        `;
+    }, 5000);
 }
 
 // Сброс приложения
